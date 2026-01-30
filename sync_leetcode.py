@@ -38,7 +38,16 @@ def fetch_latest_submission():
     }
     """
     res = requests.post(GRAPHQL_URL, json={"query": query}, headers=HEADERS)
-    return res.json()["data"]["submissionList"]["submissions"]
+
+    print("STATUS CODE:", res.status_code)
+    print("RESPONSE:", res.text)
+
+    data = res.json()
+    if "data" not in data or data["data"] is None:
+        return None
+
+    return data["data"]["submissionList"]["submissions"]
+
 
 def fetch_code(submission_id):
     query = """
